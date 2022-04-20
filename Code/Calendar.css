@@ -1,0 +1,63 @@
+.calendar_wrapper{
+    display: grid;
+    background-color:#F5F5F5;
+    border-radius:4px;
+    border:0px solid #262548;
+    align-items: center;
+    width:625px;
+    height: 444px;
+    margin:auto;
+    padding: 0px;
+    grid-template-columns: repeat(7,200px,1px);
+    grid-gap: 0px;
+    text-align:center;}
+
+.Border_text_left1{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: white;
+    border-radius: 4px;
+    width: 100px;
+    margin: auto!important;}
+.Border_text_left2{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: auto!important;}
+.Border_text_top1{
+    width: 100px;
+    height: 60px;
+    border-radius: 4px;
+    padding-top: 0px;
+    margin: auto!important;
+    background-color: white;}
+.Border_text_top2{
+    width: 100px;
+    height: 60px;
+    border-radius: 4;
+    padding-top: 0px;
+    margin: auto!important;}
+
+
+.b_on{
+    width:96px;
+    height: 58px!important;
+    border-radius: 5px!important;
+    margin-left: 2px;
+    margin-right: 2px;}
+.b_off{
+    width:96px;
+    height: 58px!important;
+    border-radius: 5px!important;
+    margin-left: 2px;
+    margin-right: 2px;
+    cursor: not-allowed!important;
+    background-color:grey!important;}
+
+.calendar_divider{
+    background-color:#262548!important;}
+
+.hr{margin: 0px!important}
