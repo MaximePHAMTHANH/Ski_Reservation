@@ -38,5 +38,5 @@ The answers are them used to display the calendar:
 Google Sheet calendar to open courses:  
 *Caldendrier sur Google Sheets pour ouvrir des créneaux*
 
-![Form](Pictures/Google_Sheets.PNG)
+![Form](Pictures/Google_Sheet.PNG)
 
