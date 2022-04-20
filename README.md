@@ -31,7 +31,7 @@ Information selection:
 The answers are them used to display the calendar:  
 *Les réponses sont utilisées pour afficher le calendrier*
 
-![Form](Pictures/Calendar.PNG)
+![Form](Pictures/Calendar_Select.PNG)
 
 ## Google Sheet Calendar:
 
