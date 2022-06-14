@@ -5,6 +5,7 @@ function button_pushed(){
 	foreach ($buttons_available as $button){
 		if(isset($_POST['button'.$button])){
 			return [true,$button];}
+	//return [false,0];
 	}
 }
 
@@ -25,23 +26,44 @@ function time_finder($button){
 	else if ($button[1]=="6"){return "9:00am-5:00pm";}		
 }
 
-function product_creator($form_data,$cal_values_display){
+function product_creator($form_data,$cal_values_display,$cal_choice){
 	$date=date_finder(button_pushed()[1],$form_data);
 	$price=$cal_values_display[button_pushed()[1]];
 	$time=time_finder(button_pushed()[1]);
 	if ($date[0]==0 && $date[1]<6) {$date = "2023-".$date;}
 	else $date = "2022-".$date;
-
-	$product_name=$date." . ".$time." . ".$form_data["Resort"]." . ".$form_data["Service"]." . ".$form_data["Number"]." People . ".$price;
-	//echo $product_name;
-	
+	$product_name=$date." . ".$time." . ".$form_data["Resort"]." . ".$form_data["Service"]." . ".$form_data["Number"]." People . ".$price." . Monitor ".$cal_choice;
+	Clear_Cart();
 	$product = new WC_Product_Simple();
 	$product->set_name($product_name);
 	$product->set_status('publish'); 
 	$product->set_catalog_visibility('visible');
+	$product->set_sold_individually( true );
 	$product->set_price($price);
 	$product->set_regular_price($price);  
 	$product->save();
-	WC()->cart->add_to_cart($product->get_id());
+	if (availability_safety_check_cart($product_name)){WC()->cart->add_to_cart($product->get_id());
+		return true;}
+	else return false;
+	
 }
 
+function availability_safety_check_cart($product_name){
+		$reservation_details=parse_product($product_name);
+		$cal=cal_finder($reservation_details["Monitor"]);
+		$raw_number=raw_finder($reservation_details["Time"]);
+		$column_letter=column_finder(days_passed($reservation_details["Date"],0));
+		if (availability_safety_check($cal,$raw_number,$column_letter)) return true;
+		else return false;
+}
+
+
+function Clear_Cart(){
+	global $woocommerce;
+	$woocommerce->cart->empty_cart();
+}
+
+function Expired_redirection(){
+
+	echo '<script>setTimeout(function(){ window.location = "http://localhost/vierge/"; }, 120000);</script>';
+}

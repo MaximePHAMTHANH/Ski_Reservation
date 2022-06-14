@@ -1,0 +1,32 @@
+.Cal_button_current{border:0px;
+	color:white;
+}
+.Cal_button{border:0px;
+	color:white;
+margin:0px!important;}
+.Cal_button_wrapper{margin-right:5px!important;
+display:inline-flex!important;margin-top:20px}
+
+
+.b_off{border:0px;
+margin:0px!important;width:85px!important;height:50px!important}
+.b_on{border:0px;
+margin:0px!important;width:85px!important;height:50px!important}
+.Border_text_top1{padding:10px!important;width:85px!important;font-size:13px;height:50px!important}
+.Border_text_top2{padding:10px!important;width:85px!important;font-size:13px;height:50px!important}
+.calendar_divider{height:0px!important;
+margin:3px}
+.Border_text_left1{padding:13px!important;width:85px!important;font-size:13px;height:58px!important
+}
+.Border_text_left2{padding:10px!important;width:85px!important;font-size:13px;height:50px!important
+}
+.Border_text_date{padding:20px!important;width:85px!important;font-size:13px;height:50px!important
+}
+#top form {
+    margin-bottom: 0px;
+}
+.calendar_wrapper{margin-top:30px!important;
+margin-bottom:70px!important;width:550px!important;height:420px!important}
+
+@media only screen and (max-width: 582px) {.calendar_wrapper{margin-left:-35px!important;
+}}

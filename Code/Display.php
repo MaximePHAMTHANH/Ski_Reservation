@@ -1,5 +1,9 @@
 <?php
 
+function Enqueue_CSS(){
+	wp_register_style('Calendar_namespace', plugins_url('Calendar5.css',__FILE__ ));
+    wp_enqueue_style('Calendar_namespace');	
+}
 function Display_form($form_data){
 	echo "<h4>Resort:<small>  ".$form_data["Resort"]."</small></h4>";
 	echo "<h4>Service:<small>  ".$form_data["Service"]."</small></h4>";
@@ -10,16 +14,13 @@ function Display_form($form_data){
 
 
 function Display_calendar($form_data,$cal){
-	wp_register_style('Calendar_namespace', plugins_url('Calendar.css',__FILE__ ));
-    wp_enqueue_style('Calendar_namespace');
 	$calendar_values=get_calendar_data($form_data,$cal);
-	$cal_values_display=cal_data_display($calendar_values);
+	$cal_values_display=cal_data_display($calendar_values,$form_data);
 	$button_classes=button_class($cal_values_display);
-	//print_r($calendar_values);
 
     echo(
 		'
-		<script>setTimeout(function(){ window.location = "http://localhost/vierge/"; }, 120000);</script>
+
 
 		<div class="calendar_wrapper">
 
@@ -125,15 +126,29 @@ function day_column($date,$offset){
 }
 
 
-function cal_data_display($data){
+
+function cal_data_display($data,$form_data){
 	$cal_data=[];
 	foreach ($data as $key => $value){
 		if ($value[0]=="x" || $value[0]=="X" || $value[0]=="R" || $value[0]=="" ){
 			$cal_data[$key]="✖";
 		}
-		else $cal_data[$key]=remove_coma($value)."€";
+		else {
+			$cal_data[$key]=remove_coma($value);
+			$cal_data[$key]=price_modifiers($cal_data[$key],$form_data)."€";
+		}
 	}
 	return $cal_data;
+}
+
+function price_modifiers($price,$form_data){
+	if ($form_data["Number"]==7){
+		if ($price>400){return $price+30;}
+		else return $price+20;}
+	else if ($form_data["Number"]==8){
+		if ($price>400){return $price+60;}
+		else return $price+40;}
+	else return $price;
 }
 
 function remove_coma($val){
@@ -153,3 +168,18 @@ function button_class($cal){
 	return $button_classes;
 }
 	
+function Render_Button($url,$cal,$cal_choice){
+	if ($cal=="Current"){
+		echo ' <div class="Cal_button_wrapper" style="text-decoration: underline;text-decoration-color: white;"> <button class="Cal_button_current">Monitor <span style="text-transform:uppercase">'.$cal_choice.'</span></button></div>';
+	}
+	else {
+	$url_param=explode("/",$url);
+	echo ' <form action="../calendar_'.$cal.'/'.$url_param[3].'" method="POST" class="Cal_button_wrapper">
+         <button class="Cal_button" type="submit" >Monitor <span style="text-transform:uppercase">'.$cal.'</span></button>
+      </form>';
+  	}
+}
+
+function Display_text($text){
+	echo "<h2>".$text."</h2>";
+}

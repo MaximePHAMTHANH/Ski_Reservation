@@ -23,13 +23,13 @@ function readSheet($range){
     $response = $service->spreadsheets_values->get($spreadsheetId, $range);
     $values = $response->getValues();
 
-    if (!empty($values)){
+    // if (!empty($values)){
 
-        foreach($values as $row){
-            print_r($row);
-        }
-    }
-
+    //     foreach($values as $row){
+    //         print_r($row);
+    //     }
+    // }
+    return $values;
 }
 
 function SinglereadSheet($range){

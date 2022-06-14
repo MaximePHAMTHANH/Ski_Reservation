@@ -1,5 +1,14 @@
 <?php
 
+function url_is_invalid($url){
+	if (str_contains($url, 'elementor')){return true;} 
+	else {	
+		if (str_contains($url, '?')){return false;} 
+		else return true;}
+
+}
+
+
 function date_is_invalid($date){
 	$date=date_parser($date);
 	if ($date["Year"]==2022 && $date["Month"]>=6 || $date["Year"]==2023 && $date["Month"]<6 ){return false;}
@@ -34,21 +43,34 @@ function get_calendar_data($date,$cal){
 		array_push($date_column_letter,column_finder(days_passed($date["First Date"],$i)));
 		$i++;}
 
-	$calendar_data=[];
+//	$calendar_data=[];
+	// $j=1;
+	// while ($j<7){
+	// 	$k=$j+3;
+	// 	$calendar_data["A".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[0].$k);
+	// 	$calendar_data["B".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[1].$k);
+	// 	$calendar_data["C".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[2].$k);
+	// 	$calendar_data["D".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[3].$k);
+	// 	$calendar_data["E".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[4].$k);
+	// 	$j++;
+	// }
+
+	$calendar_data_raw=readSheet('Cal_'.$cal."!".$date_column_letter[0]."4:".$date_column_letter[4]."9");
+	$calendar_data_bis=[];
 	$j=1;
 	while ($j<7){
-		$k=$j+3;
-		$calendar_data["A".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[0].$k);
-		$calendar_data["B".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[1].$k);
-		$calendar_data["C".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[2].$k);
-		$calendar_data["D".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[3].$k);
-		$calendar_data["E".$j] = SinglereadSheet('Cal'.$cal.'!'.$date_column_letter[4].$k);
+		$calendar_data_bis["A".$j]=[$calendar_data_raw[$j-1][0]][0];
+		$calendar_data_bis["B".$j]=[$calendar_data_raw[$j-1][1]][0];
+		$calendar_data_bis["C".$j]=[$calendar_data_raw[$j-1][2]][0];
+		$calendar_data_bis["D".$j]=[$calendar_data_raw[$j-1][3]][0];
+		$calendar_data_bis["E".$j]=[$calendar_data_raw[$j-1][4]][0];
 		$j++;
 	}
-	return $calendar_data;
+
+	return $calendar_data_bis;
 }
 
-function form_data_checker($data){
+function form_date_checker($data){
 	$date=$data["First Date"];
 	$date=date_parser($date);
 	$today=date('Y-m-d');
@@ -59,4 +81,12 @@ function form_data_checker($data){
 		if ($date["Month"]<$today_parsed["Month"]){$data["First Date"]=$today;}
 		else if ($date["Month"]==$today_parsed["Month"] && $date["Day"]<$today_parsed["Day"]){$data["First Date"]=$today;}} 
 	return $data;
+}
+
+function Calendar_choice($url){
+	$url_param=explode("/",$url);
+	if ($url_param[2]=="calendar_a") return 'a';
+	else if ($url_param[2]=="calendar_b") return 'b';
+	else if ($url_param[2]=="calendar_c") return 'c';
+	else return "Error";
 }
